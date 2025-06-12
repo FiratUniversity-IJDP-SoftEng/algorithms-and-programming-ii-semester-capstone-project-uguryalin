@@ -1,60 +1,62 @@
-# [Your Algorithm Name] - Interactive Visualization
+# Campus Navigator - Floyd-Warshall Visualizer
 
 ## Project Overview
 
-This project is an interactive web application that implements and visualizes [Algorithm Name], developed as part of the Algorithms and Programming II course at Fırat University, Software Engineering Department.
+This project is an interactive web application that implements and visualizes the Floyd-Warshall algorithm, developed as part of the Algorithms and Programming II course at Fırat University, Software Engineering Department.
 
 ## Algorithm Description
 
-[Provide a comprehensive explanation of your algorithm here. Include the following elements:]
-
 ### Problem Definition
 
-[Clearly define the problem that the algorithm solves]
+The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a weighted graph. In this project, the graph represents points of interest within the university campus.
 
 ### Mathematical Background
 
-[Explain any mathematical concepts, formulas, or notation relevant to understanding the algorithm]
+The Floyd-Warshall algorithm uses dynamic programming to progressively improve the estimate of the shortest path between two vertices. The algorithm works by considering all pairs of nodes and checking if a path through an intermediate node results in a shorter path.
 
 ### Algorithm Steps
 
-1. [Step 1 with explanation]
-2. [Step 2 with explanation]
-3. [Step 3 with explanation]
-...
+1. Initialize a distance matrix with direct distances between nodes.
+2. Set the distance from each node to itself as zero.
+3. For each intermediate node `k`, update the shortest path from node `i` to node `j` by comparing the current distance with the sum of the distances from `i` to `k` and from `k` to `j`.
+4. Repeat for all pairs (i, j) and all intermediate nodes k.
 
 ### Pseudocode
 
 ```
-[Include pseudocode representation of your algorithm]
+for k in range(n):
+    for i in range(n):
+        for j in range(n):
+            if dist[i][j] > dist[i][k] + dist[k][j]:
+                dist[i][j] = dist[i][k] + dist[k][j]
 ```
 
 ## Complexity Analysis
 
 ### Time Complexity
 
-- **Best Case:** O(...) - [Explanation]
-- **Average Case:** O(...) - [Explanation]
-- **Worst Case:** O(...) - [Explanation]
+- **Best Case:** O(n**3) - The algorithm always runs in cubic time regardless of graph structure.
+- **Average Case:** O(n**3) - Applies to all graphs.
+- **Worst Case:** O(n**3) - Even in dense graphs, the time complexity remains cubic.
 
 ### Space Complexity
 
-- O(...) - [Explanation]
+- O(n**2) - A matrix of size n x n is used to store distances.
 
 ## Features
 
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
-...
+- Step-by-step visualization of the Floyd-Warshall algorithm
+- Matrix updates displayed in real-time
+- Selection of campus locations as nodes
+- Visual indication of shortest paths and intermediate steps
 
 ## Screenshots
 
-![Main Interface](docs/screenshots/main_interface.png)
-*Caption describing the main interface*
+![Main Interface] (Ekran Görüntüsü (82).png)
+*User interface showing building selection and algorithm start*
 
-![Algorithm in Action](docs/screenshots/algorithm_demo.png)
-*Caption describing the algorithm in action*
+![Algorithm in Action] (Ekran Görüntüsü (85).png)
+*Visualization of the distance matrix being updated*
 
 ## Installation
 
@@ -67,8 +69,8 @@ This project is an interactive web application that implements and visualizes [A
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-repository.git
-   cd your-repository
+   git clone https://github.com/uguryalin/campus_navigator/tree/main/floyd_warshall_app
+   cd campus-navigator
    ```
 
 2. Create a virtual environment:
@@ -76,10 +78,6 @@ This project is an interactive web application that implements and visualizes [A
    # On Windows
    python -m venv venv
    venv\Scripts\activate
-
-   # On macOS/Linux
-   python3 -m venv venv
-   source venv/bin/activate
    ```
 
 3. Install dependencies:
@@ -94,94 +92,94 @@ This project is an interactive web application that implements and visualizes [A
 
 ## Usage Guide
 
-1. [Step 1 of using the application]
-2. [Step 2 of using the application]
-3. [Step 3 of using the application]
-...
+1. Select start and end campus locations.
+2. Click the “Run Algorithm” button to visualize shortest paths.
+3. Use the matrix viewer to understand step-by-step matrix updates.
 
 ### Example Inputs
 
-- [Example 1 with expected output]
-- [Example 2 with expected output]
-- [Example 3 with expected output]
+- From "Library" to "30th Year Cafe" → Output: Shortest route and distance.
+- From "Refectory" to "Murad Mosque" → Output: Shortest route and matrix path.
+- From "Faculty of Technology" to "Sok Market" → Output: Shortest route highlighted.
 
 ## Implementation Details
 
 ### Key Components
 
-- `algorithm.py`: Contains the core algorithm implementation
-- `app.py`: Main Streamlit application
-- `utils.py`: Helper functions for data processing
-- `visualizer.py`: Functions for visualization
+- `algorithm.py`: Contains the Floyd-Warshall implementation
+- `app.py`: Main Streamlit application logic and UI
+- `utils.py`: Helper functions for data formatting and matrix display
+- `visualizer.py`: Dynamic matrix and path visualization tools
 
 ### Code Highlights
 
 ```python
-# Include a few key code snippets that demonstrate the most important parts of your implementation
-def key_function(parameter):
-    """
-    Docstring explaining what this function does
-    """
-    # Implementation with comments explaining the logic
-    result = process(parameter)
-    return result
+def floyd_warshall(matrix):
+    n = len(matrix)
+    dist = [row[:] for row in matrix]
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if dist[i][j] > dist[i][k] + dist[k][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+    return dist
 ```
 
 ## Testing
 
-This project includes a test suite to verify the correctness of the algorithm implementation:
+This project includes a test suite to verify the correctness of the Floyd-Warshall implementation:
 
 ```bash
-python -m unittest test_algorithm.py
+pytest test_algorithm.py
 ```
 
 ### Test Cases
 
-- [Test case 1 description]
-- [Test case 2 description]
-- [Test case 3 description]
+- 4-node sample matrix with known paths
+- Edge case with disconnected nodes
+- Fully connected matrix with random weights
 
 ## Live Demo
 
-A live demo of this application is available at: [Insert Streamlit Cloud URL here]
+A live demo of this application is available at: [https://campusnavigator-floydwarshall.streamlit.app/]
 
 ## Limitations and Future Improvements
 
 ### Current Limitations
 
-- [Limitation 1]
-- [Limitation 2]
-- [Limitation 3]
+- Visualization performance may degrade with very large graphs
+- No error handling for invalid inputs yet
+- Static campus layout limits dynamic use
 
 ### Planned Improvements
 
-- [Improvement 1]
-- [Improvement 2]
-- [Improvement 3]
+- Add interactive map interface for node selection
+- Improve real-time visualization animations
+- Add multilingual support (Turkish/English)
 
 ## References and Resources
 
 ### Academic References
 
-1. [Reference 1]
-2. [Reference 2]
-3. [Reference 3]
+1. Introduction to Algorithms - Cormen et al.
+2. Algorithm Design Manual - Steven Skiena
+3. Lecture slides from Algorithms and Programming II
 
 ### Online Resources
 
-- [Resource 1]
-- [Resource 2]
-- [Resource 3]
+- https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
+- https://streamlit.io/
+- https://visualgo.net/en/floydwarshall
 
 ## Author
 
-- **Name:** [Your Name]
-- **Student ID:** [Your Student ID]
-- **GitHub:** [Your GitHub Username]
+- **Name:** [UGUR YALIN]
+- **Student ID:** [230543014]
+- **GitHub:** [https://github.com/uguryalin]
 
 ## Acknowledgements
 
-I would like to thank Assoc. Prof. Ferhat UÇAR for guidance throughout this project, and [any other acknowledgements].
+I would like to thank Assoc. Prof. Ferhat UÇAR for guidance throughout this project and for the opportunity to explore algorithm visualization techniques.
 
 ---
 
